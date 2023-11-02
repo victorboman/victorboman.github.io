@@ -1,6 +1,5 @@
-var button = document.querySelector('.button');
-        button.addEventListener("click", function showText() {
-            var text = document.querySelector('.hidden');
-            text.textContent = "hello world";
-            text.classList.toggle("hiddenStyle");
-        });
+var toggleMode = document.querySelector(".toggleModeButton");
+toggleMode.addEventListener("click", function toggleMode() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+});
