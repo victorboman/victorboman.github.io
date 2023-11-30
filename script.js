@@ -26,14 +26,25 @@ function appendText(text, index) {
 }
 
 function removeItem(e) {
-  console.log(e); 
+  let deleteCard = e.target.getAttribute('data-number');
+  let divItem = document.querySelector('.divItem-'+deleteCard);
+  divItem.remove();
+
+  const localStorageItems = JSON.parse(localStorage.getItem('Information'));
+  Array.from(localStorageItems);
+
+  console.log(typeof localStorageItems);
+  const updateLocalStorage = localStorageItems.filter(function(item){
+    return item === 1;
+  });
+  console.log(updateLocalStorage);
 }
 
 function onLoad() {
-  let myArr = JSON.parse(localStorage.getItem('Information'));
-  if (!myArr) return;
-  for (let i = 0; i < myArr.length; i++) {
-    appendText(myArr[i].toString(), i);
+  const localStorageItems = JSON.parse(localStorage.getItem('Information'));
+  if (!localStorageItems) return;
+  for (let i = 0; i < localStorageItems.length; i++) {
+    appendText(localStorageItems[i].toString(), i);
   }
 }
 
