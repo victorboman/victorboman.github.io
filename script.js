@@ -22,26 +22,25 @@ function appendText(text, index) {
   divItem.appendChild(paragraph);
   divItem.appendChild(newButton);
   listElement.insertBefore(divItem, listElement.children[0]);
-  console.log(index);
 }
 
 function removeItem(e) {
-  let deleteCard = e.target.getAttribute('data-number');
+  let deleteCard = parseInt(e.target.getAttribute('data-number'));
   let divItem = document.querySelector('.divItem-'+deleteCard);
   divItem.remove();
 
-  const localStorageItems = JSON.parse(localStorage.getItem('Information'));
-  Array.from(localStorageItems);
+  const localStorageRaw = localStorage.getItem('Information');
+  const localStorageItems = JSON.parse(localStorageRaw);
 
-  console.log(typeof localStorageItems);
-  const updateLocalStorage = localStorageItems.filter(function(item){
-    return item === 1;
+  const updateLocalStorage = Array.from(localStorageItems).filter(function(item, index){
+    console.log(item, index, deleteCard);
+    return index !== deleteCard;
   });
-  console.log(updateLocalStorage);
+  addToLocalStorage(updateLocalStorage);
 }
 
 function onLoad() {
-  const localStorageItems = JSON.parse(localStorage.getItem('Information'));
+  const localStorageItems = getLocalStorage();
   if (!localStorageItems) return;
   for (let i = 0; i < localStorageItems.length; i++) {
     appendText(localStorageItems[i].toString(), i);
@@ -53,21 +52,27 @@ function clearAllValues() {
   document.querySelector(".flex-container_2").innerHTML = '';
 }
 
+function addToLocalStorage(storage) {
+  const localValue = 'Information';
+  localStorage.setItem(localValue, JSON.stringify(storage));
+}
+
+function getLocalStorage() {
+  return JSON.parse(localStorage.getItem('Information'));
+}
+
 function saveValues() {
-  console.log('test');
   let text = document.querySelector(".textArea").value;
   if (!text) return;
+  
+  let localStorageItems = getLocalStorage();
+  let index = localStorageItems && Array.isArray(localStorageItems) ? localStorageItems.length : 0;
 
-  let test = JSON.parse(localStorage.getItem('Information'));
-  let i = test && Array.isArray(test) ? test.length : 0;
+  appendText(text, index);
 
-  appendText(text, i);
-
-  let localValue = 'Information';
-  let localStorageText = JSON.parse(localStorage.getItem(localValue));
-  localStorageText = localStorageText ? localStorageText : [];
-  localStorageText.push(text);
-  localStorage.setItem(localValue, JSON.stringify(localStorageText));
+  localStorageItems = localStorageItems ?? [];
+  localStorageItems.push(text);
+  addToLocalStorage(localStorageItems);
 }
 
 let divItems = document.querySelectorAll(".card-button");
