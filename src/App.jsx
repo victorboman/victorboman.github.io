@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Incrementor from "./components/Incrementor/Incrementor";
 import Cardlist from "./components/Cardlist/Cardlist";
+import Createnew from "./components/Createnew/Createnew";
+import "./app.scss";
 
 /* const userObj = {
   name: "user",
@@ -32,8 +34,9 @@ function App() {
     setString("Siddes Bodega");
   }, [helloString]); */
   return (
-    <div className="wrapper">
+    <div>
       <Incrementor initialValue={23} />
+      <Createnew />
       <Cardlist myJobs={jobs} />
     </div>
   );

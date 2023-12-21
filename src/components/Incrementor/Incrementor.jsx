@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./incrementor.scss";
+import "./Incrementor.scss";
 
 function Incrementor(props) {
   const { initialValue } = props;
